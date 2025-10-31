@@ -1,7 +1,13 @@
 from flask import Flask, request, jsonify
 from llm import assistant
+import logging
 
 app = Flask(__name__)
+
+@app.route('/')
+def index():
+    return "<h1>LLM API is running. Use /greet or /input endpoints.</h1>"
+
 
 @app.route('/greet', methods=['GET'])
 def greet():
@@ -10,18 +16,24 @@ def greet():
 
 @app.route('/input', methods=['POST'])
 def handle_input():
-    data = request.get_json()
-    prompt = data.get('prompt', '')
+    data = request.get_json(force=True)
+    prompt = data.get('prompt', '').strip()
 
-    # if not prompt:
-    #     return jsonify({'error': 'Prompt is required'}), 400
-    # response ="asdas"
-    response = assistant(prompt)
+    if not prompt:
+        return jsonify({'error': 'Prompt is required'}), 400
+
+    logging.info(f"Received prompt: {prompt[:50]}...")  # Log first 50 chars
+
+    try:
+        response = assistant(prompt)
+    except Exception as e:
+        logging.error(f"Error during assistant response generation: {e}")
+        return jsonify({'error': 'Internal server error during generation'}), 500
+
     return jsonify({
         'prompt': prompt,
         'response': response,
         'status': 'success'
     })
-
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', debug=True)

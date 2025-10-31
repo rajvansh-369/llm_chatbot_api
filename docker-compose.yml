@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  llm-flask-api:
+    build: .
+    ports:
+      - "5000:5000"
+    environment:
+      - HF_HOME=/cache
+    volumes:
+      - ./cache:/cache
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: "nvidia"
+              count: all
+              capabilities: [gpu]
