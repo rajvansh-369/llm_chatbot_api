@@ -190,7 +190,8 @@ This project is licensed under the **MIT License** — feel free to use and modi
 
 ### 👤 Author
 
-**Rajvansh Singh**
+**Snehal Rajvansh**
 🔗 [GitHub](https://github.com/rajvansh-369)
-📧 [Contact](mailto:your-email@example.com)
+📧 [Contact](mailto:rajbansh.snehal@gmail.com)
+
 
